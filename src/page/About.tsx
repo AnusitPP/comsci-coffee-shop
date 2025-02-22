@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 const ContactCard = () => {
   return (
+    <div className='min-h-screen'>
     <div className='flex justify-center'>
     <div className="max-w-md p-6 bg-white rounded-lg shadow-md">
       <div className="flex flex-col items-center mb-4">
@@ -35,6 +36,7 @@ const ContactCard = () => {
           </p>
         </div>
       </div>
+    </div>
     </div>
     </div>
   );

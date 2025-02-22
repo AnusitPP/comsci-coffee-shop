@@ -1,9 +1,8 @@
 import Menu from "./Menu";
 
 interface CartItem extends Menu{
-  id: number;
-  name: string;
-  menuImageUrl: string;
+  name: string | undefined;
+  image: String | undefined;
   sweetness: string;
   price: number;
   quantity: number;

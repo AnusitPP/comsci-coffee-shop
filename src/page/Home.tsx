@@ -3,17 +3,16 @@ import CoffeeDetail from "../components/Menu/MenuDetail"
 import CartDetail from "../components/Menu/CartDetail";
 import { useState } from "react";
 import CartItem from "../types/CartItem";
-import { Italic } from "lucide-react";
 
 function Home() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const addToCart = (item: CartItem) => {
-    const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
+    const existingItem = cartItems.find((cartItem) => cartItem.id === item.id && cartItem.sweetness === item.sweetness);
     if (existingItem) {
       setCartItems(
         cartItems.map((cartItem) =>
-          cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+          cartItem.id === item.id && cartItem.sweetness === item.sweetness ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
         )
       );
     } else {
@@ -21,9 +20,9 @@ function Home() {
     }
   };
 
-  const updateQuantity = (id:number, change:number) => {
+  const updateQuantity = (id: number, change: number,sweetness:string) => {
     setCartItems(cartItems.map(item => {
-      if (item.id === id) {
+      if (item.id === id && item.sweetness === sweetness) {
         const newQuantity = item.quantity + change;
         return newQuantity >= 1
           ? { ...item, quantity: newQuantity }
@@ -33,27 +32,25 @@ function Home() {
     }));
   };
 
-  const removeFromCart = (items: number) => {
-    setCartItems(cartItems.filter((item) => item.id !== items));
+  const removeFromCart = (id: number, sweetness: string) => {
+    setCartItems(cartItems.filter((item) => !(item.id === id && item.sweetness === sweetness)));
   };
 
   return (
-    <><div className="grid grid-cols">
-      <div className="sm:grid-cols-3">
-      {cartItems.map((item) => (
-          <CartDetail
-            key={item.id}
-            cartItem={cartItems}
-            updateQuantity={updateQuantity}
-            removeFromCart={removeFromCart}
-          />
-        ))}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 p-6 space-py">
-        {menus.map((menu) => (
-          <CoffeeDetail key={menu.id} menu={menu} addToCart={addToCart} />
-        ))}
-      </div>
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4 p-6 space-py">
+        <div className="sm:grid-cols-3">
+        <CartDetail
+        cartItem={cartItems}
+        updateQuantity={updateQuantity}
+        removeFromCart={removeFromCart}
+      />
+        </div>
+        <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-6 space-py">
+          {menus.map((menu) => (
+            <CoffeeDetail key={menu.id} menu={menu} addToCart={addToCart} />
+          ))}
+        </div>
       </div>
     </>
   );
