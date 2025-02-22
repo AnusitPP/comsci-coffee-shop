@@ -3,6 +3,7 @@ import CoffeeDetail from "../components/Menu/MenuDetail"
 import CartDetail from "../components/Menu/CartDetail";
 import { useState } from "react";
 import CartItem from "../types/CartItem";
+import { Italic } from "lucide-react";
 
 function Home() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -39,11 +40,14 @@ function Home() {
   return (
     <><div className="grid grid-cols">
       <div className="sm:grid-cols-3">
+      {cartItems.map((item) => (
           <CartDetail
+            key={item.id}
             cartItem={cartItems}
             updateQuantity={updateQuantity}
             removeFromCart={removeFromCart}
           />
+        ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 p-6 space-py">
         {menus.map((menu) => (
