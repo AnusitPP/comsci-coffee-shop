@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 const ContactCard = () => {
   return (
+    <div className='flex justify-center'>
     <div className="max-w-md p-6 bg-white rounded-lg shadow-md">
       <div className="flex flex-col items-center mb-4">
         <div className="w-24 h-24 overflow-hidden rounded-full mb-3">
@@ -28,12 +29,13 @@ const ContactCard = () => {
           </a>
         </div>
         <div className="flex items-start gap-3 text-gray-600">
-          <MapPin className="w-5 h-5 text-gray-400 mt-1" />
+          <MapPin className="w-15 h-15 text-gray-400 mt-1" />
           <p className="font-kanit">
             คณะวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยราชภัฏสงขลา 160 หมู่ 4 ถนน กาญจนวนิช ตำบลเขารูปช้าง อำเภอเมืองสงขลา จังหวัดสงขลา รหัสไปรษณีย์ 90000
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 };

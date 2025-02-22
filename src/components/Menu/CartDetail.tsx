@@ -1,46 +1,50 @@
-import React from 'react';
-import CartItem from '../../types/CartItem';
+import { Plus, Minus, Trash2 } from "lucide-react";
+import CartItem from "../../types/CartItem";
+import React from "react";
 
 interface CartDetailProps {
-    items: CartItem[];
-    onRemoveItem: (id: number) => void;
-    onUpdateQuantity: (id: number, quantity: number) => void;
-}
-
-const CartDetail: React.FC<CartDetailProps> = ({ items, onRemoveItem, onUpdateQuantity }) => {
-    const handleRemove = (id: number) => {
-        onRemoveItem(id);
-    };
-
-    const handleQuantityChange = (id: number, event: React.ChangeEvent<HTMLInputElement>) => {
-        const quantity = parseInt(event.target.value, 10);
-        onUpdateQuantity(id, quantity);
-    };
-
-    const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
-
-    return (
-        <div>
-            <h2>Cart Details</h2>
-            <ul>
-                {items.map(item => (
-                    <li key={item.id}>
-                        <span>{item.name}</span>
-                        <span>${item.price.toFixed(2)}</span>
-                        <input
-                            type="number"
-                            value={item.quantity}
-                            onChange={(event) => handleQuantityChange(item.id, event)}
-                            min="1"
-                        />
-                        <button onClick={() => handleRemove(item.id)}>Remove</button>
-                    </li>
-                ))}
-            </ul>
-            <h3>Total: ${totalAmount.toFixed(2)}</h3>
-        </div>
-    );
+  cartItem: CartItem[];
+  updateQuantity: (id: number, change: number) => void;
+  removeFromCart: (id: number) => void;
 };
 
-export default CartDetail;
+const CartDetail:React.FC<CartDetailProps> =({ cartItem, updateQuantity ,removeFromCart}) => {
+    return (
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-lg font-bold bg-gray-800 text-white p-2 rounded-md text-center">
+        รายการสินค้าในตะกร้า
+      </h2>
 
+      {cartItem.length === 0 ? (
+        <p className="font-bold text-center mt-4">ไม่มีสินค้าในตะกร้า</p>
+      ) : (
+        <div className="space-y-4 mt-4">
+            {cartItem.map((item) => (
+              <div key={item.id} className="flex items-center justify-between p-2 bg-gray-100 rounded-md shadow-sm">
+                <img src={item.menuImageUrl} alt={item.name} className="w-16 h-16 rounded-md object-cover"/>
+                <div className="flex-1 ml-4">
+                    <p className="font-bold">{item.name}</p>
+                    <p className="text-sm text-gray-600">หวาน: {item.sweetness}</p>
+                    <p className="text-sm text-gray-600">ราคา: ฿{item.price}</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <button onClick={() => updateQuantity(item.id, -1)} className="p-1 bg-gray-200 rounded-full hover:bg-gray-300">
+                      <Minus size={16} />
+                    </button>
+                    <span className="font-bold">{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.id, 1)} className="p-1 bg-gray-200 rounded-full hover:bg-gray-300">
+                      <Plus size={16} />
+                    </button>
+                    <button onClick={() => removeFromCart(item.id)} className="p-1 bg-red-200 rounded-full hover:bg-red-300">
+                      <Trash2 size={16} />
+                    </button>
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default CartDetail;

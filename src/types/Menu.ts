@@ -1,10 +1,9 @@
 interface Menu {
-  rating(rating: any): import("react").ReactNode;
   id: number;
   title: string;
   price: number;
   description: string;
-  menuImageUrl: string;
+  menuImageUrl: string | undefined;
 }
 
 export default Menu;
