@@ -1,4 +1,5 @@
 interface Menu {
+  rating(rating: any): import("react").ReactNode;
   id: number;
   title: string;
   price: number;
